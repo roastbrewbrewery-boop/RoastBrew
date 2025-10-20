@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Brewery - Crafting Exceptional Beers | Homepage</title>
+    <meta name="description" content="Discover Your Brewery's finest handcrafted beers, our story, and upcoming events. Taste the craft, feel the spirit.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="homepage"> <!-- ADDED: class="homepage" here -->
+    <header class="main-header">
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">Roast & Brew Brewery</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#beers">Our Beers</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="track.html">Track Order</a></li> <!-- NEW: Track Order link -->
+                <li class="auth-links">
+                    <!-- UPDATED: ID to signin-btn-all for consistent handling -->
+                    <a href="#" id="signin-btn-all"><i class="fas fa-user"></i> Sign In/Up</a>
+                </li>
+                <li class="cart-link">
+                    <a href="checkout.html"><i class="fas fa-shopping-cart"></i> Cart (<span id="cart-count">0</span>)</a>
+                </li>
+            </ul>
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </header>
+
+<section class="hero-section">
+    <div class="hero-content">
+        <h1>Taste the Craft, Feel the Spirit.</h1>
+        <p>Experience the finest handcrafted beers from our brewery.</p>
+        <a href="#beers" class="btn">Explore Our Beers</a>
+    </div>
+</section>
+
+<section id="about" class="about-section">
+    <div class="container">
+        <h2>Our Story</h2>
+        <p>Roast & Barrel Brewery is an innovative craft brewery located in Baguio City, Philippines, specializing in coffee-infused craft beers. Combining the best coffee beans from Benguet and Mountain Province with small-batch brewing techniques, our beers offer unique, high-quality beverages that appeal to beer lovers and coffee enthusiasts.</p>
+        <p>From traditional lagers to innovative IPAs, every sip tells a story of dedication and craftsmanship. Join us in celebrating the rich tradition of brewing with a twist.</p>
+    </div>
+</section>
+
+<section id="beers" class="beers-section">
+    <div class="container">
+        <h2>Our Signature Brews</h2>
+        <div class="beer-grid">
+            <div class="beer-item">
+                <h3>Cordillera Stout</h3>
+                <p>A rich, dark beer with roasted malt and smooth coffee notes (Bold like Cordillera Highlands)</p>
+                <img src="image/stout.png" alt="">
+                <p class="price">₱ 120.00</p>
+                <button class="btn add-to-cart" data-name="Cordillera Stout" data-price="120.00" data-img="image/stout.png">Add to Cart</button>
+            </div>
+            <div class="beer-item">
+                <h3>Benguet Blond Ale</h3>
+                <p>Light and Crisp with a hint of floral sweetness, perfect for easy drinking and sunny afternoons</p>
+                <img src="image/blondale.jpg" alt="">
+                <p class="price">₱ 140.00</p>
+                <button class="btn add-to-cart" data-name="Benguet Blond Ale" data-price="140.00" data-img="image/blondale.jpg">Add to Cart</button>
+            </div>
+            <div class="beer-item">
+                <h3>Sagada Amber</h3>
+                <p>Balanced and smooth with toasted caramel flavor and a touch of mountain grown coffee aroma </p>
+                <img src="image/amber.jpg" alt="">
+                <p class="price">₱ 135.00</p>
+                <button class="btn add-to-cart" data-name="Sagada Amber" data-price="135.00" data-img="image/amber.jpg">Add to Cart</button>
+            </div>
+        </div>
+        <a href="shop.html" class="btn secondary-btn">View All Products</a>
+    </div>
+</section>
+
+<!-- Events section removed -->
+
+<section id="contact" class="contact-section">
+    <div class="container">
+        <h2>Get in Touch</h2>
+        <p>Have questions or want to learn more? Reach out to us!</p>
+        <form class="contact-form">
+            <input type="text" placeholder="Your Name" required autocomplete="off">
+            <input type="email" placeholder="Your Email" required autocomplete="off">
+            <textarea placeholder="Your Message"></textarea>
+            <button type="submit" class="btn">Send Message</button>
+        </form>
+
+    </div>
+</section>
+
+<footer class="main-footer">
+    <div class="container">
+        <p>&copy; 2025 Roast&Brew. All rights reserved.</p>
+        <div class="contact-info">
+            <p>Email: info@yourbrewery.com</p>
+            <p>Phone: (123) 456-7890</p>
+            <p>Baguio City, Philippines</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Sign In/Up Modal Structure (This should be the ONLY place for the signin-modal HTML) -->
+<div id="signin-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Sign In / Sign Up</h2>
+        <form class="signin-form" autocomplete="off">
+            <div class="form-group">
+                <label for="username">Email:</label>
+                <input type="text" id="username" name="username" required autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required autocomplete="new-password">
+            </div>
+            <button type="submit" class="btn">Sign In</button>
+            <p class="form-footer">Don't have an account? <a href="#" id="signup-link">Sign Up</a></p>
+        </form>
+
+        <form class="signup-form" style="display: none;" autocomplete="off">
+            <div class="form-group">
+                <label for="new-full-name">Full Name:</label>
+                <input type="text" id="new-full-name" name="new-full-name" required autocomplete="name">
+            </div>
+            <div class="form-group">
+                <label for="new-username">Email:</label>
+                <input type="email" id="new-username" name="new-username" required autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="new-password">Password:</label>
+                <input type="password" id="new-password" name="new-password" required autocomplete="new-password">
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password:</label>
+                <input type="password" id="confirm-password" name="confirm-password" required autocomplete="new-password">
+            </div>
+            <button type="submit" class="btn">Sign Up</button>
+            <p class="form-footer">Already have an account? <a href="#" id="signin-link">Sign In</a></p>
+        </form>
+        <p id="signup-message" style="margin-top: 10px; font-size: 0.9em;"></p>
+        <p class="disclaimer">User authentication requires a secure backend.</p>
+    </div>
+</div>
+
+<!-- NEW: Age Gate Modal -->
+<!-- REMOVED 'active' class from the initial HTML. JavaScript will add it when needed. -->
+<div id="age-gate-modal" class="modal age-gate-modal">
+    <div class="modal-content age-gate-content">
+        <h2>Are you of legal drinking age?</h2>
+        <p>By entering this site, you affirm that you are 18 years or older (or the legal drinking age in your country/region).</p>
+        <div class="age-gate-buttons">
+            <button id="age-confirm-btn" class="btn">Yes, I am 18+</button>
+            <button id="age-deny-btn" class="btn secondary-btn">No</button>
+        </div>
+        <p class="disclaimer">Please enjoy our products responsibly.</p>
+    </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

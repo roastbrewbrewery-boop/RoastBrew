@@ -1,0 +1,7 @@
+for email confirmation
+cd Download
+cd Final Brewery website
+node server.js
+nmp install -g pm2
+pm2 start server.js
+pm2 save

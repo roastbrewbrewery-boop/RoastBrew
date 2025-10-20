@@ -1,0 +1,151 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #0056b3;
+    margin-bottom: 30px;
+}
+
+h2 {
+    color: #0056b3;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+/* NEW: Tab Styles */
+.tab-container {
+    width: 100%;
+}
+
+.tab-buttons {
+    display: flex;
+    border-bottom: 2px solid #ccc;
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #555;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px; /* Align with container border */
+}
+
+.tab-btn.active {
+    color: #0056b3;
+    border-bottom-color: #0056b3;
+}
+
+.tab-content {
+    display: none; /* Hide all tabs by default */
+}
+
+.tab-content.active {
+    display: block; /* Show only the active tab */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+
+table thead th {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    text-align: left;
+}
+
+table tbody td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+#monthly-sales-list {
+    list-style: none;
+    padding: 0;
+}
+
+#monthly-sales-list li {
+    background-color: #e9ecef;
+    margin-bottom: 8px;
+    padding: 10px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#monthly-sales-list li strong {
+    color: #0056b3;
+}
+
+/* NEW: Styles for stock input */
+.stock-input {
+    padding: 5px 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 80%; /* Adjust width as needed */
+}
+
+/* NEW: Styles for interactive elements in the orders table */
+.status-select {
+    padding: 5px 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    font-size: 0.9em;
+    width: 100%; /* Make dropdown fill the cell */
+}
+
+.update-btn,
+.update-stock-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: #28a745; /* Green for update */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.update-btn:hover,
+.update-stock-btn:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+.update-btn:disabled,
+.update-stock-btn:disabled {
+    background-color: #6c757d; /* Grey when disabled */
+    cursor: not-allowed;
+}

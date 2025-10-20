@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Order Tracker</title>
+    <link rel="stylesheet" href="adminstyle.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        
+        <div class="tab-container">
+            <div class="tab-buttons">
+                <button class="tab-btn active" data-tab="orders-section">Orders</button>
+                <button class="tab-btn" data-tab="stock-section">Stock</button>
+                <button class="tab-btn" data-tab="sales-section">Sales</button>
+                <button class="tab-btn" data-tab="messages-section">Messages</button>
+            </div>
+
+            <div id="orders-section" class="tab-content active">
+                <h2>Current Orders</h2>
+                <table id="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer Name</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Order Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div id="stock-section" class="tab-content">
+                <h2>Product Stock Levels</h2>
+                <table id="stock-table">
+                    <thead>
+                        <tr>
+                            <th>Product ID</th>
+                            <th>Product Name</th>
+                            <th>Current Stock</th>
+                            <th>New Stock</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div id="sales-section" class="tab-content">
+                <h2>Monthly Sales Per Product</h2>
+                <div id="sales-chart-container">
+                    <ul id="monthly-sales-list"></ul>
+                </div>
+            </div>
+
+            <div id="messages-section" class="tab-content">
+                <h2>Customer Messages</h2>
+                <table id="messages-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>From</th>
+                            <th>Email</th>
+                            <th>Message</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
