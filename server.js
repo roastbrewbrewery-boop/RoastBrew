@@ -10,6 +10,10 @@ const saltRounds = 10; // For password hashing
 app.use(cors());
 app.use(express.json());
 
+// --- SendGrid Configuration ---
+// IMPORTANT: This line reads the API key from your Render environment variables.
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 // --- IN-MEMORY DATA STORAGE (Resets on server restart) ---
 let storedOrders = []; // This will hold orders placed from the checkout page
 let storedUsers = []; // NEW: To store user accounts
