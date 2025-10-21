@@ -1,24 +1,17 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-require('dotenv').config(); // Load environment variables from .env file
-const port = 57935;
-const nodemailer = require('nodemailer');
+// Use the port provided by the environment (e.g., Render) or a default for local development
+const port = process.env.PORT || 57935;
+const sgMail = require('@sendgrid/mail'); // Use SendGrid
 const bcrypt = require('bcryptjs');
 const saltRounds = 10; // For password hashing
 
 app.use(cors());
 app.use(express.json());
-
-// --- Nodemailer Transporter Configuration ---
-// Replace with your actual email service details
-const transporter = nodemailer.createTransport({
-    service: 'gmail', // or 'outlook', 'smtp.mailtrap.io' etc.
-    auth: {
-        user: process.env.EMAIL_USER, // Read email user from environment variable
-        pass: process.env.EMAIL_PASS    // Read email password from environment variable
-    }
-})
+// --- SendGrid Configuration ---
+// IMPORTANT: In Render, set the SENDGRID_API_KEY environment variable.
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // --- IN-MEMORY DATA STORAGE (Resets on server restart) ---
 let storedOrders = []; // This will hold orders placed from the checkout page
@@ -109,9 +102,9 @@ app.post('/api/contact-message', async (req, res) => {
         // --- Send two emails: one notification to admin, one auto-reply to customer ---
 
         // 1. Email to Admin
-        const adminMailPromise = transporter.sendMail({
-            from: `"Roast & Brew Website" <${email}>`,
-            to: process.env.EMAIL_USER, // Your admin email
+        const adminMailPromise = sgMail.send({
+            to: 'roast.brew.brewery@gmail.com', // Your admin email
+            from: 'roast.brew.brewery@gmail.com', // Must be your verified SendGrid sender
             subject: `New Message from ${name}`,
             html: emailHtml,
         });
@@ -126,9 +119,9 @@ app.post('/api/contact-message', async (req, res) => {
                 <p style="margin-top: 30px;">Cheers,<br>The Roast & Brew Brewery Team</p>
             </div>
         `;
-        const customerMailPromise = transporter.sendMail({
-            from: `"Roast & Brew Brewery" <${process.env.EMAIL_USER}>`,
+        const customerMailPromise = sgMail.send({
             to: email, // The customer's email address
+            from: 'roast.brew.brewery@gmail.com', // Must be your verified SendGrid sender
             subject: "We've received your message!",
             html: customerMailHtml,
         });
@@ -176,15 +169,16 @@ app.post('/api/signup', async (req, res) => {
                 <h1 style="color: #e67e22;">Welcome to Roast & Brew Brewery, ${fullName}!</h1>
                 <p>Thank you for signing up! Your account has been created successfully.</p>
                 <p>Ready to find your next favorite brew? Visit our shop to get started!</p>
-                <a href="http://localhost:57935/shop.html" style="display: inline-block; background-color: #e67e22; color: #fff; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-weight: bold; margin-top: 20px;">
+                <!-- Use the live frontend URL from environment variables -->
+                <a href="${process.env.FRONTEND_URL || 'http://localhost:57935'}/shop.html" style="display: inline-block; background-color: #e67e22; color: #fff; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-weight: bold; margin-top: 20px;">
                     Go to Shop
                 </a>
                 <p style="margin-top: 30px;">Cheers,<br>The Roast & Brew Brewery Team</p>
             </div>
         `;
-        await transporter.sendMail({
-            from: `"Roast & Brew Brewery" <${process.env.EMAIL_USER}>`,
+        await sgMail.send({
             to: email,
+            from: 'roast.brew.brewery@gmail.com', // Must be your verified SendGrid sender
             subject: `Welcome to the Roast & Brew Family, ${fullName}!`,
             html: emailHtml,
         });
@@ -325,9 +319,9 @@ app.post('/api/send-order-confirmation-email', async (req, res) => { // Make the
     `;
 
     try {
-        await transporter.sendMail({
-            from: `"Roast & Brew Brewery" <${process.env.EMAIL_USER}>`, // Sender address
+        await sgMail.send({
             to: customerEmail, // List of receivers
+            from: 'roast.brew.brewery@gmail.com', // Must be your verified SendGrid sender
             subject: `Your Roast & Brew Order Confirmation [${orderId}]`, // Subject line
             html: emailHtml, // html body
         });
@@ -421,7 +415,8 @@ async function sendOrderStatusUpdateEmail(customerEmail, customerName, orderId, 
     `;
     const commonFooter = `
             <p>You can track your order anytime by visiting our website:</p>
-            <a href="http://localhost:57935/track.html" style="display: inline-block; background-color: #e67e22; color: #fff; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-weight: bold; margin-top: 20px;">
+            <!-- Use the live frontend URL from environment variables -->
+            <a href="${process.env.FRONTEND_URL || 'http://localhost:57935'}/track.html" style="display: inline-block; background-color: #e67e22; color: #fff; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-weight: bold; margin-top: 20px;">
                 Track My Order
             </a>
             <p style="margin-top: 30px;">Cheers,<br>The Roast & Brew Brewery Team</p>
@@ -438,9 +433,9 @@ async function sendOrderStatusUpdateEmail(customerEmail, customerName, orderId, 
         return; // Don't send emails for other statuses like 'Processing'
     }
 
-    await transporter.sendMail({
-        from: `"Roast & Brew Brewery" <${process.env.EMAIL_USER}>`,
+    await sgMail.send({
         to: customerEmail,
+        from: 'roast.brew.brewery@gmail.com', // Must be your verified SendGrid sender
         subject: subject,
         html: emailHtml,
     });
