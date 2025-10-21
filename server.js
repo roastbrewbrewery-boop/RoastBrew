@@ -3,22 +3,12 @@ const cors = require('cors');
 const app = express();
 // Use the port provided by the environment (e.g., Render) or a default for local development
 const port = process.env.PORT || 57935;
-const nodemailer = require('nodemailer');
+const sgMail = require('@sendgrid/mail');
 const bcrypt = require('bcryptjs');
 const saltRounds = 10; // For password hashing
 
 app.use(cors());
 app.use(express.json());
-
-// --- Nodemailer Transporter Configuration (using Environment Variables) ---
-// IMPORTANT: In Render, set EMAIL_USER and EMAIL_PASS in your environment variables.
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER, // Your email address (e.g., roast.brew.brewery@gmail.com)
-        pass: process.env.EMAIL_PASS    // Your 16-digit Google App Password
-    }
-});
 
 // --- IN-MEMORY DATA STORAGE (Resets on server restart) ---
 let storedOrders = []; // This will hold orders placed from the checkout page
@@ -109,9 +99,9 @@ app.post('/api/contact-message', async (req, res) => {
         // --- Send two emails: one notification to admin, one auto-reply to customer ---
 
         // 1. Email to Admin
-        const adminMailPromise = transporter.sendMail({
-            from: `"Roast & Brew Website" <${email}>`, // Use customer's email as sender for admin notification
+        const adminMailPromise = sgMail.send({
             to: 'roast.brew.brewery@gmail.com',
+            from: 'roast.brew.brewery@gmail.com', // Must be your verified sender
             subject: `New Message from ${name}`,
             html: emailHtml,
         });
@@ -126,9 +116,9 @@ app.post('/api/contact-message', async (req, res) => {
                 <p style="margin-top: 30px;">Cheers,<br>The Roast & Brew Brewery Team</p>
             </div>
         `;
-        const customerMailPromise = transporter.sendMail({
-            from: '"Roast & Brew Brewery" <roast.brew.brewery@gmail.com>',
+        const customerMailPromise = sgMail.send({
             to: email, // The customer's email address
+            from: 'roast.brew.brewery@gmail.com', // Must be your verified sender
             subject: "We've received your message!",
             html: customerMailHtml,
         });
@@ -183,9 +173,9 @@ app.post('/api/signup', async (req, res) => {
                 <p style="margin-top: 30px;">Cheers,<br>The Roast & Brew Brewery Team</p>
             </div>
         `;
-        await transporter.sendMail({
-            from: '"Roast & Brew Brewery" <roast.brew.brewery@gmail.com>',
+        await sgMail.send({
             to: email,
+            from: 'roast.brew.brewery@gmail.com', // Must be your verified sender
             subject: `Welcome to the Roast & Brew Family, ${fullName}!`,
             html: emailHtml,
         });
@@ -326,9 +316,9 @@ app.post('/api/send-order-confirmation-email', async (req, res) => { // Make the
     `;
 
     try {
-        await transporter.sendMail({
-            from: '"Roast & Brew Brewery" <roast.brew.brewery@gmail.com>',
+        await sgMail.send({
             to: customerEmail, // List of receivers
+            from: 'roast.brew.brewery@gmail.com', // Must be your verified sender
             subject: `Your Roast & Brew Order Confirmation [${orderId}]`, // Subject line
             html: emailHtml, // html body
         });
@@ -440,9 +430,9 @@ async function sendOrderStatusUpdateEmail(customerEmail, customerName, orderId, 
         return; // Don't send emails for other statuses like 'Processing'
     }
 
-    await transporter.sendMail({
-        from: '"Roast & Brew Brewery" <roast.brew.brewery@gmail.com>',
+    await sgMail.send({
         to: customerEmail,
+        from: 'roast.brew.brewery@gmail.com', // Must be your verified sender
         subject: subject,
         html: emailHtml,
     });
