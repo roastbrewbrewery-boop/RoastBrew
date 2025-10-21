@@ -1,11 +1,12 @@
 {
   "name": "final-brewery-website",
   "version": "1.0.0",
-  "description": "A full-stack website for the Roast & Brew Brewery.",
+  "description": "Backend server for the Roast & Brew Brewery website.",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "dev": "node server.js"
   },
   "keywords": [],
   "author": "",
