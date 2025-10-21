@@ -1,3 +1,7 @@
+// --- API Configuration ---
+// Replace with your deployed backend URL when you go live
+const API_BASE_URL = 'https://roast-brew-backend.onrender.com'; 
+
 // Helper function for currency formatting (Philippine Peso)
 const formatCurrency = (amount) => {
     return `₱ ${parseFloat(amount).toFixed(2)}`;
@@ -214,7 +218,7 @@ if (signinForm) {
         }
 
         try {
-            const response = await fetch('http://localhost:57935/api/signin', {
+            const response = await fetch(`${API_BASE_URL}/api/signin`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -289,7 +293,7 @@ if (signupForm) {
         currentSignupMessage.style.color = 'black';
 
         try {
-            const response = await fetch('http://localhost:57935/api/signup', {
+            const response = await fetch(`${API_BASE_URL}/api/signup`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -322,7 +326,7 @@ if (signupForm) {
                 if (document.body.classList.contains('track-page')) {
                     updateTrackPageDisplay();
                 }
-                alert('Sign-up successful! You are now logged in.');
+                alert('Sign-up successful! A welcome email has been sent. Please check your spam folder if you don\'t see it.');
 
             } else {
                 // Handle errors: get the message from the server's JSON response
@@ -612,7 +616,7 @@ if (paymentForm) {
 
         try {
             // --- Formspree integration for order confirmation email ---
-            const response = await fetch('http://localhost:57935/api/send-order-confirmation-email', { // UPDATED: Use local backend
+            const response = await fetch(`${API_BASE_URL}/api/send-order-confirmation-email`, { // UPDATED: Use local backend
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -652,10 +656,10 @@ if (paymentForm) {
                 }
 
                 if (paymentMessageElement) {
-                    paymentMessageElement.textContent = `Order ${orderId} confirmed! Check your email.`;
+                    paymentMessageElement.textContent = `Order ${orderId} confirmed! Check your email (and spam folder).`;
                     paymentMessageElement.style.color = 'green';
                 }
-                alert(`Order Confirmed! Confirmation email sent for order ${orderId}.`);
+                alert(`Order Confirmed! A confirmation for order ${orderId} has been sent. Please check your spam folder if you don't see it.`);
 
             } else {
                 const errorData = await response.json().catch(() => ({ message: 'Unknown server error' }));
@@ -853,7 +857,7 @@ async function displayTrackingStatus(orderId, orderEmail = null) {
     let order = null;
 
     try {
-        const response = await fetch(`http://localhost:57935/api/track-order/${orderId}`);
+        const response = await fetch(`${API_BASE_URL}/api/track-order/${orderId}`);
         if (response.ok) {
             order = await response.json();
             // If tracking as a signed-in user, ensure the order belongs to them
@@ -914,7 +918,7 @@ function displayUserOrders() {
     userOrderListDiv.innerHTML = '<p>Loading your orders...</p>';
 
     // Use the new dedicated endpoint for fetching user orders
-    fetch(`http://localhost:57935/api/my-orders/${encodeURIComponent(signedInUserEmail)}`)
+    fetch(`${API_BASE_URL}/api/my-orders/${encodeURIComponent(signedInUserEmail)}`)
         .then(response => response.json())
         .then(userOrders => {
             if (userOrders.length > 0) {
@@ -988,7 +992,7 @@ if (contactForm) {
         submitButton.disabled = true;
 
         try {
-            const response = await fetch('http://localhost:57935/api/contact-message', {
+            const response = await fetch(`${API_BASE_URL}/api/contact-message`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1001,7 +1005,7 @@ if (contactForm) {
                 })
             });
             const result = await response.json();
-            alert(result.message);
+            alert(result.message + " An auto-reply has been sent to your email. Please check your spam folder if you don't see it.");
             if (response.ok) {
                 contactForm.reset();
             }
